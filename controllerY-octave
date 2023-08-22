@@ -1,0 +1,129 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class YtoOctave : MonoBehaviour
+{
+    public float InitialY;
+    public float level1;
+    public float level2;
+    public float level3;
+    public float level4;
+    public float level5;
+    public float level6;
+    public float level7;
+
+    public AudioSource audioSource1;
+    public AudioSource audioSource2;
+    public AudioSource audioSource3;
+    public AudioSource audioSource4;
+    public AudioSource audioSource5;
+    public AudioSource audioSource6;
+    //public AudioSource audioSource7;
+
+    public bool Trigger;
+    //public Vector3 location;
+
+    bool audioSource1Played = false;
+    bool audioSource2Played = false;
+    bool audioSource3Played = false;
+    bool audioSource4Played = false;
+    bool audioSource5Played = false;
+    bool audioSource6Played = false;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    void ResetAudioSourceFlags()
+    {
+     
+        if (!audioSource1.isPlaying)
+        {
+            audioSource1Played = false;
+        }
+        if (!audioSource2.isPlaying)
+        {
+            audioSource2Played = false;
+        }
+        if (!audioSource3.isPlaying)
+        {
+            audioSource3Played = false;
+        }
+        if (!audioSource4.isPlaying)
+        {
+            audioSource4Played = false;
+        }
+
+        if (!audioSource5.isPlaying)
+        {
+            audioSource5Played = false;
+        }
+        if (!audioSource6.isPlaying)
+        {
+            audioSource6Played = false;
+        }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        //Trigger = OVRInput.Get(OVRInput.RawButton.RIndexTrigger);
+        //if (Trigger == true)
+        //{
+        //   ResetAudioSourceFlags();
+        //}
+        ResetAudioSourceFlags();
+
+        if (transform.position.y > InitialY + level1 && transform.position.y < InitialY + level2)
+        {
+            if (!audioSource1Played)
+            {
+                audioSource1.Play();
+                audioSource1Played = true;
+            }
+        }
+        else if (transform.position.y > InitialY + level2 && transform.position.y < InitialY + level3)
+        {
+            if (!audioSource2Played)
+            {
+                audioSource2.Play();
+                audioSource2Played = true;
+            }
+        }
+        else if (transform.position.y > InitialY + level3 && transform.position.y < InitialY + level4)
+        {
+            if (!audioSource3Played)
+            {
+                audioSource3.Play();
+                audioSource3Played = true;
+            }
+        }
+        else if (transform.position.y > InitialY + level4 && transform.position.y < InitialY + level5)
+        {
+            if (!audioSource4Played)
+            {
+                audioSource4.Play();
+                audioSource4Played = true;
+            }
+        }
+        else if (transform.position.y > InitialY + level5 && transform.position.y < InitialY + level6)
+        {
+            if (!audioSource5Played)
+            {
+                audioSource5.Play();
+                audioSource5Played = true;
+            }
+        }
+        else if (transform.position.y > InitialY + level6 && transform.position.y < InitialY + level7)
+        {
+            if (!audioSource6Played)
+            {
+                audioSource6.Play();
+                audioSource6Played = true;
+            }
+        }
+    }     
+}
