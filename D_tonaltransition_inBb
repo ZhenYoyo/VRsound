@@ -1,0 +1,184 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class YtoTonalTransition : MonoBehaviour
+{
+
+    public float InitialY;
+    public float level1;
+    public float level2;
+    public float level3;
+    public float level4;
+    public float level5;
+
+    public float heightThreshold1;
+    public float heightThreshold2;
+    public float heightThreshold3;
+    public float heightThreshold4;
+    private float previousHeight;
+    private float timer;
+    public float heightDifference;
+
+    public AudioSource audioSource1;
+    public AudioSource audioSource2;
+    public AudioSource audioSource3;
+    public AudioSource audioSource4;
+
+    public AudioSource transition1;
+    public AudioSource transition2;
+    public AudioSource transition3;
+
+    bool audioSource1Played = false;
+    bool audioSource2Played = false;
+    bool audioSource3Played = false;
+    bool audioSource4Played = false;
+    bool transition1Played = false;
+    bool transition2Played = false;
+    bool transition3Played = false;
+    bool transition4Played = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Initialize the previous height and timer
+        previousHeight = transform.position.y;
+        timer = 0f;
+    }
+    void ResetAudioSourceFlags()
+
+    {
+        if (!audioSource1.isPlaying)
+        {
+            audioSource1Played = false;
+        }
+        if (!audioSource2.isPlaying)
+        {
+            audioSource2Played = false;
+        }
+        if (!audioSource3.isPlaying)
+        {
+            audioSource3Played = false;
+        }
+        if (!audioSource4.isPlaying)
+        {
+            audioSource4Played = false;
+        }
+        if (!transition1.isPlaying)
+        {
+           transition1Played = false;
+        }
+        if (!transition2.isPlaying)
+        {
+            transition2Played = false;
+        }
+        if (!transition3.isPlaying)
+        {
+            transition3Played = false;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        timer += Time.deltaTime;
+        ResetAudioSourceFlags();
+
+        if (timer >= 1.0f)
+        {
+            float currentHeight = transform.position.y;
+            heightDifference = Mathf.Abs(currentHeight - previousHeight);
+
+
+            if (transform.position.y > InitialY + level1 && transform.position.y < InitialY + level2)
+                //0-0.1
+            {
+                if (heightDifference < heightThreshold1 && !audioSource1Played)
+                {
+                    audioSource1.Play();
+                    audioSource1Played = true;
+                }
+            }
+
+            else if (transform.position.y > InitialY + level2 && transform.position.y < InitialY + level3)
+            //0.1-0.2
+            {
+                if (heightDifference > heightThreshold1 && heightDifference < heightThreshold2 && !transition1Played)
+                {
+                    Debug.Log("1to2");
+                    transition1.Play();
+                    transition1Played = true;
+                }
+                else if (heightDifference < heightThreshold1 && !audioSource2Played)
+                {
+                    audioSource2.Play();
+                    audioSource2Played = true;
+                }
+            }
+
+            else if (transform.position.y > InitialY + level3 && transform.position.y < InitialY + level4)
+            //0.2-0.3
+            {
+                if (heightDifference > heightThreshold1 && heightDifference < heightThreshold2 && !transition2Played)
+                {
+                    Debug.Log("2to3");
+                    transition2.Play();
+                    transition2Played = true;
+                }
+
+                if (heightDifference > heightThreshold2 && heightDifference < heightThreshold3 && !transition1Played && !transition2Played)
+                {
+                    Debug.Log("1to3");
+                    transition1.Play();
+                    transition1Played = true;
+                    transition2.Play();
+                    transition2Played = true;
+                }
+
+                else if (heightDifference < heightThreshold1 && !audioSource3Played)
+                {
+                    audioSource3.Play();
+                    audioSource3Played = true;
+                }
+            }
+
+            else if (transform.position.y > InitialY + level4 && transform.position.y < InitialY + level5)
+            //0.3-0.4
+            {
+                if (heightDifference > heightThreshold1 && heightDifference < heightThreshold2 && !transition3Played)
+                {
+                    Debug.Log("3to4");
+                    transition3.Play();
+                    transition3Played = true;
+                }
+
+                if (heightDifference > heightThreshold2 && heightDifference < heightThreshold3 && !transition2Played && !transition3Played)
+                {
+                    Debug.Log("2to4");
+                    transition2.Play();
+                    transition2Played = true;
+                    transition3.Play();
+                    transition3Played = true;
+                }
+                if (heightDifference > heightThreshold3 && heightDifference < heightThreshold4 && !transition1Played && !transition2Played && !transition3Played)
+                {
+                    Debug.Log("1to4");
+                    transition1.Play();
+                    transition1Played = true;
+                    transition2.Play();
+                    transition2Played = true;
+                    transition3.Play();
+                    transition3Played = true;
+                }
+                else if (heightDifference < heightThreshold1 && !audioSource4Played)
+                {
+                    audioSource4.Play();
+                    audioSource4Played = true;
+                }
+            }
+            // Reset the timer and update the previous height
+            timer = 0f;
+            previousHeight = currentHeight;
+        }
+    }
+}
