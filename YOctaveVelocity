@@ -1,0 +1,134 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class YOctaveVelocity : MonoBehaviour
+{
+    //set velocity
+    public float drawVolumn = 0.8f;
+    public float finalVolumn = 0.0f;
+    public Vector3 RightControllerVel;
+    public float MagVelocity;
+    public float adjustment;
+    public float volumnMin = 0.2f;
+    public float volumnMax = 1.0f;
+
+    public float InitialY;
+    public float level1;
+    public float level2;
+    public float level3;
+    public float level4;
+    // public float level5;
+    //public float level6;
+    //public float level7;
+
+    public AudioSource audioSource1;
+    public AudioSource audioSource2;
+    public AudioSource audioSource3;
+    //public AudioSource audioSource4;
+    //public AudioSource audioSource5;
+    //public AudioSource audioSource6;
+    //public AudioSource audioSource7;
+
+    public bool Trigger;
+    //public Vector3 location;
+
+    /* bool audioSource1Played = false;
+     bool audioSource2Played = false;
+     bool audioSource3Played = false;
+     bool audioSource4Played = false;
+     bool audioSource5Played = false;
+     bool audioSource6Played = false;
+    */
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        audioSource1.volume = drawVolumn;
+        audioSource2.volume = drawVolumn;
+        audioSource3.volume = drawVolumn;
+        //audioSource4.volume = initialVolumn;
+
+
+    }
+
+
+    /*void ResetAudioSourceFlags()
+    {
+
+        if (!audioSource1.isPlaying)
+        {
+            audioSource1Played = false;
+        }
+        if (!audioSource2.isPlaying)
+        {
+            audioSource2Played = false;
+        }
+        if (!audioSource3.isPlaying)
+        {
+            audioSource3Played = false;
+        }
+        if (!audioSource4.isPlaying)
+        {
+            audioSource4Played = false;
+        }
+    }
+    */
+    // Update is called once per frame
+
+
+    void Update()
+    {
+        RightControllerVel = OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
+        MagVelocity = RightControllerVel.magnitude * 0.5f;
+        Trigger = OVRInput.Get(OVRInput.RawButton.RIndexTrigger);
+        drawVolumn = MagVelocity + adjustment;
+        finalVolumn = Mathf.Lerp(volumnMin, volumnMax, drawVolumn);
+        //audioSource3.volume = MagVelocity + adjustment;
+        //audioSource4.volume = MagVelocity + adjustment;
+        //ResetAudioSourceFlags();
+
+        if (Trigger == true)
+        {
+
+            if (transform.position.y > InitialY + level1 && transform.position.y < InitialY + level2)
+            {
+                audioSource1.mute = false;
+                audioSource1.volume = drawVolumn;
+                audioSource2.mute = true;
+                audioSource3.mute = true;
+            }
+
+            else if (transform.position.y > InitialY + level2 && transform.position.y < InitialY + level3)
+            {
+                audioSource2.mute = false;
+                audioSource2.volume = drawVolumn;
+                audioSource1.mute = true;
+                audioSource3.mute = true;
+            }
+            else if (transform.position.y > InitialY + level3 && transform.position.y < InitialY + level4)
+            {
+                audioSource3.mute = false;
+                audioSource3.volume = drawVolumn;
+                audioSource1.mute = true;
+                audioSource2.mute = true;
+            }
+            else
+            {
+                audioSource1.mute = true;
+                audioSource2.mute = true;
+                audioSource3.mute = true;
+            }
+
+        }
+
+        else if (Trigger == false)
+        {
+            audioSource1.mute = true;
+            audioSource2.mute = true;
+            audioSource3.mute = true;
+        }
+    }
+}
+
+  
